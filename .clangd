@@ -1,0 +1,31 @@
+If:
+  PathMatch: .*\.cuh?
+CompileFlags:
+  Compiler: g++-11
+  Remove:
+    - "-ccbin*"
+    - -forward-unknown-to-host-compiler
+    - --generate-code=*
+    - -rdc=true
+    - -G
+  Add:
+    - --cuda-path=/usr/local/cuda-12.1/
+    - --cuda-gpu-arch=sm_80
+    # fix "use of undeclared identifier 'THRUST_NS_QUALIFIER'"
+    - '-include __clang_cuda_runtime_wrapper.h'
+    # half type
+    - '-include cuda_fp16.h'
+Diagnostics:
+  UnusedIncludes: Strict
+  MissingIncludes: Strict
+  Suppress:
+    - ovl_no_viable_function_in_call
+    - typecheck_invalid_operands
+  Includes:
+    IgnoreHeader:
+      # __device__ __global__ __host__
+      - __clang_cuda_runtime_wrapper.h
+      # threadIdx
+      - __clang_cuda_builtin_vars.h
+      # half type
+      - cuda_fp16.h

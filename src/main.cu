@@ -4,6 +4,7 @@
 //
 // Description: hgemm main
 
+#include <cstddef>
 #include "gflags/gflags.h"
 #include "omp.h"
 #include "tester.h"
@@ -98,10 +99,10 @@ int main(int argc, char *argv[]) {
     Tester tester(FLAGS_M, FLAGS_N, FLAGS_K, FLAGS_warmup_iterations, FLAGS_profiling_iterations, FLAGS_sleep_duration,
                   FLAGS_enable_check);
     tester.evaluate(cublasTensorOp, "Cublas-Tensor-Op");
-    // tester.evaluate(simtNaive, "Simt-Naive");
+    tester.evaluate(simtNaive, "Simt-Naive");
 
     if (FLAGS_enable_wmma) {
-        // tester.evaluate(wmmaNaive, "Wmma-Naive");
+        tester.evaluate(wmmaNaive, "Wmma-Naive");
         // tester.evaluate(wmmaBase, "Wmma-Base");
         tester.evaluate(wmmaPadding, "Wmma-Padding");
         tester.evaluate(wmmaAsync, "Wmma-Async");

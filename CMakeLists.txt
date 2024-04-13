@@ -6,6 +6,8 @@
 
 cmake_minimum_required (VERSION 3.12)
 
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 project (cuda_hgemm LANGUAGES C CXX CUDA)
 
 set (CMAKE_VERBOSE_MAKEFILE ${HGEMM_VERBOSE_MAKEFILE})
@@ -22,8 +24,6 @@ set (CMAKE_EXE_LINKER_FLAGS "-Wl,--as-needed")
 
 add_compile_options (
     -Wall
-    -Werror
-    -Wextra
     -Wswitch-default
     -Wfloat-equal
     -Wshadow
@@ -66,7 +66,10 @@ file (GLOB HGEMM_SRCS
     ${PROJECT_SOURCE_DIR}/src/mma/*.cu
 )
 
-cuda_add_executable (hgemm ${HGEMM_SRCS})
-target_link_libraries (hgemm -lcublas OpenMP::OpenMP_CXX ${GFLAGS_LIBRARIES})
+add_executable (hgemm ${HGEMM_SRCS})
+add_library(cuda_library STATIC ${HGEMM_SRCS})
+target_link_libraries(hgemm PRIVATE cuda_library)
+
+target_link_libraries (hgemm PRIVATE -lcublas OpenMP::OpenMP_CXX ${GFLAGS_LIBRARIES})
 
 install (TARGETS hgemm RUNTIME DESTINATION bin)

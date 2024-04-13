@@ -1,3 +1,15 @@
+# Note
+
+错误
+```
+[HGEMM 2024-04-13 21:06:25 19484:19484 wmma_padding.cu:191 initWmmaPadding] CUDA Runtime API error = 0098 "cudaErrorInvalidDeviceFunction", runtime version: 11000, driver version: 12030
+```
+原因：./build.sh -a80 忘记加-a80
+
+CMake cuda_add_executable 无法生成compile_commands.json，改为add_executable
+
+---
+
 # CUDA HGEMM
 Several optimization methods of half-precision general matrix multiplication (HGEMM) using tensor core with WMMA API and MMA PTX instruction. The calculation expression is as follows, where the precision of matrix A (M * K), B (K * N) and C (M * N) is FP16. Through exploring various matrix tiling and optimization methods, the current performance between 256 to 16384 dimensions is not less than 95% of the performance of cublas, and in many scenarios, it exceeds the performance of cublas.
 ```
