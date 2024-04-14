@@ -8,6 +8,11 @@
 
 CMake cuda_add_executable 无法生成compile_commands.json，改为add_executable
 
+rsync同步log：
+```
+rsync kiwi-nfd:~/gpudb-project-ictdb/gpudb-project-code-ictdb/cuda_demo/cuda_hgemm/log/* log/
+```
+
 ---
 
 # CUDA HGEMM
